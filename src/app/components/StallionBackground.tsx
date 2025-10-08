@@ -32,7 +32,7 @@ export default function StallionBackground({ className, startX, startY }: Stalli
     canvas.height = window.innerHeight;
 
     const stallionImg = new Image();
-    stallionImg.src = '/stallion.png'; // ✅ should be in /public/stallion.png
+    stallionImg.src = '/Stallion.png'; // ✅ should be in /public/Stallion.png
 
     const particles: {
       x: number;

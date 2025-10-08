@@ -32,7 +32,7 @@ export default function PhoenixBackground({ className, startX, startY }: Phoenix
     canvas.height = window.innerHeight;
 
     const phoenixImg = new Image();
-    phoenixImg.src = '/phoenix.png'; // ✅ should live in `/public/phoenix.png`
+    phoenixImg.src = '/Phoenix.png'; // ✅ should live in `/public/Phoenix.png`
 
     const particles: {
       x: number;
