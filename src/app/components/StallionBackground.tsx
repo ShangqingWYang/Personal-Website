@@ -4,22 +4,25 @@ import React, { useEffect, useRef, useState } from 'react';
 
 interface StallionBackgroundProps {
   className?: string;
-  startX?: number; // initial X in pixels
-  startY?: number; // initial Y in pixels
+  startX?: number;
+  startY?: number;
 }
 
 export default function StallionBackground({ className, startX, startY }: StallionBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  const [stallionPos, setStallionPos] = useState({
-    x: startX ?? window.innerWidth * 0.75, // default right quarter
-    y: startY ?? window.innerHeight / 2,   // vertically centered
-  });
+  // ✅ Prevent SSR crash by checking for `window`
+  const [stallionPos, setStallionPos] = useState(() => ({
+    x: typeof window !== 'undefined' ? startX ?? window.innerWidth * 0.75 : 0,
+    y: typeof window !== 'undefined' ? startY ?? window.innerHeight / 2 : 0,
+  }));
 
   const dragging = useRef(false);
   const dragOffset = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
+    if (typeof window === 'undefined') return; // ✅ skip on server
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -29,7 +32,7 @@ export default function StallionBackground({ className, startX, startY }: Stalli
     canvas.height = window.innerHeight;
 
     const stallionImg = new Image();
-    stallionImg.src = '/stallion.png';
+    stallionImg.src = '/stallion.png'; // ✅ should be in /public/stallion.png
 
     const particles: {
       x: number;
@@ -41,7 +44,7 @@ export default function StallionBackground({ className, startX, startY }: Stalli
       alpha: number;
     }[] = [];
 
-    const colors = ['#00FFFF', '#1E90FF', '#7FFFD4', '#87CEFA']; // blue/teal flames
+    const colors = ['#00FFFF', '#1E90FF', '#7FFFD4', '#87CEFA'];
     const numParticles = 200;
 
     for (let i = 0; i < numParticles; i++) {
@@ -49,7 +52,7 @@ export default function StallionBackground({ className, startX, startY }: Stalli
         x: stallionPos.x,
         y: canvas.height + Math.random() * 200,
         dx: (Math.random() - 0.5) * 1.5,
-        dy: - (Math.random() * 2 + 1.5),
+        dy: -(Math.random() * 2 + 1.5),
         size: Math.random() * 3 + 2,
         color: colors[Math.floor(Math.random() * colors.length)],
         alpha: Math.random() * 0.6 + 0.3,
@@ -58,7 +61,7 @@ export default function StallionBackground({ className, startX, startY }: Stalli
 
     let angle = 0;
 
-    // Drag handlers
+    // ✅ Dragging handlers
     const handleMouseDown = (e: MouseEvent) => {
       const imgWidth = canvas.width / 3;
       const imgHeight = stallionImg.height * (imgWidth / stallionImg.width);
@@ -75,7 +78,10 @@ export default function StallionBackground({ className, startX, startY }: Stalli
 
     const handleMouseMove = (e: MouseEvent) => {
       if (dragging.current) {
-        setStallionPos({ x: e.clientX - dragOffset.current.x, y: e.clientY - dragOffset.current.y });
+        setStallionPos({
+          x: e.clientX - dragOffset.current.x,
+          y: e.clientY - dragOffset.current.y,
+        });
       }
     };
 
@@ -88,6 +94,7 @@ export default function StallionBackground({ className, startX, startY }: Stalli
     window.addEventListener('mouseup', handleMouseUp);
 
     const animate = () => {
+      if (!ctx) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Draw stallion
@@ -95,13 +102,13 @@ export default function StallionBackground({ className, startX, startY }: Stalli
       const imgHeight = stallionImg.height * (imgWidth / stallionImg.width);
       ctx.save();
       ctx.translate(stallionPos.x, stallionPos.y);
-      ctx.rotate(Math.sin(angle / 100) * 0.02); // subtle rocking
+      ctx.rotate(Math.sin(angle / 100) * 0.02);
       ctx.drawImage(stallionImg, -imgWidth / 2, -imgHeight / 2, imgWidth, imgHeight);
       ctx.restore();
 
       angle++;
 
-      // Draw rising flames from floor
+      // Draw flames/particles
       particles.forEach((p) => {
         p.x += p.dx;
         p.y += p.dy;
@@ -140,7 +147,7 @@ export default function StallionBackground({ className, startX, startY }: Stalli
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [stallionPos, startX, startY]);
+  }, [stallionPos.x, stallionPos.y, startX, startY]);
 
   return <canvas ref={canvasRef} className={className} />;
 }

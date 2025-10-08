@@ -4,23 +4,25 @@ import React, { useEffect, useRef, useState } from 'react';
 
 interface PhoenixBackgroundProps {
   className?: string;
-  startX?: number; // initial X in pixels
-  startY?: number; // initial Y in pixels
+  startX?: number;
+  startY?: number;
 }
 
 export default function PhoenixBackground({ className, startX, startY }: PhoenixBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  // Initialize phoenixPos using startX/startY or default to center
-  const [phoenixPos, setPhoenixPos] = useState({
-    x: startX ?? window.innerWidth / 4, // default left quarter
-    y: startY ?? window.innerHeight / 2, // vertically centered
-  });
+  // Use lazy initialization to avoid accessing `window` during SSR
+  const [phoenixPos, setPhoenixPos] = useState(() => ({
+    x: typeof window !== 'undefined' ? startX ?? window.innerWidth / 4 : 0,
+    y: typeof window !== 'undefined' ? startY ?? window.innerHeight / 2 : 0,
+  }));
 
   const dragging = useRef(false);
   const dragOffset = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
+    if (typeof window === 'undefined') return; // ✅ Skip during SSR
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -30,7 +32,7 @@ export default function PhoenixBackground({ className, startX, startY }: Phoenix
     canvas.height = window.innerHeight;
 
     const phoenixImg = new Image();
-    phoenixImg.src = '/phoenix.png';
+    phoenixImg.src = '/phoenix.png'; // ✅ should live in `/public/phoenix.png`
 
     const particles: {
       x: number;
@@ -49,7 +51,7 @@ export default function PhoenixBackground({ className, startX, startY }: Phoenix
         x: phoenixPos.x,
         y: canvas.height + Math.random() * 200,
         dx: (Math.random() - 0.5) * 1.5,
-        dy: - (Math.random() * 2 + 1.5),
+        dy: -(Math.random() * 2 + 1.5),
         size: Math.random() * 3 + 2,
         color: colors[Math.floor(Math.random() * colors.length)],
         alpha: Math.random() * 0.6 + 0.3,
@@ -58,7 +60,7 @@ export default function PhoenixBackground({ className, startX, startY }: Phoenix
 
     let angle = 0;
 
-    // Dragging handlers
+    // ✅ Dragging handlers
     const handleMouseDown = (e: MouseEvent) => {
       const imgWidth = canvas.width / 3;
       const imgHeight = phoenixImg.height * (imgWidth / phoenixImg.width);
@@ -75,7 +77,10 @@ export default function PhoenixBackground({ className, startX, startY }: Phoenix
 
     const handleMouseMove = (e: MouseEvent) => {
       if (dragging.current) {
-        setPhoenixPos({ x: e.clientX - dragOffset.current.x, y: e.clientY - dragOffset.current.y });
+        setPhoenixPos({
+          x: e.clientX - dragOffset.current.x,
+          y: e.clientY - dragOffset.current.y,
+        });
       }
     };
 
@@ -88,6 +93,8 @@ export default function PhoenixBackground({ className, startX, startY }: Phoenix
     window.addEventListener('mouseup', handleMouseUp);
 
     const animate = () => {
+      if (!ctx) return;
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Draw phoenix
@@ -101,7 +108,7 @@ export default function PhoenixBackground({ className, startX, startY }: Phoenix
 
       angle++;
 
-      // Draw rising flames
+      // Draw particles (flames)
       particles.forEach((p) => {
         p.x += p.dx;
         p.y += p.dy;
@@ -140,7 +147,7 @@ export default function PhoenixBackground({ className, startX, startY }: Phoenix
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [phoenixPos, startX, startY]);
+  }, [phoenixPos.x, phoenixPos.y, startX, startY]);
 
   return <canvas ref={canvasRef} className={className} />;
 }
