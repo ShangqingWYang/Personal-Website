@@ -92,7 +92,7 @@ export default function Footer() {
       {/* Footer content */}
       <div className="flex flex-col md:flex-row justify-between items-center w-full">
         <p className="text-lg md:text-xl font-serif tracking-widest text-gray-300">
-          &copy; {new Date().getFullYear()} S. All rights reserved.
+          &copy; {new Date().getFullYear()} Website built from scratch by SY. All rights reserved.
         </p>
         <div className="flex justify-around w-full md:w-1/3 mt-6 md:mt-0">
           <a href="https://github.com/yourusername" className="hover:text-yellow-400 transition-all text-lg font-medium">
