@@ -54,7 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {windowHeight > 0 && (
           <PhoenixBackground
             startX={835}
-            startY={windowHeight / 2}
+            startY={windowHeight / 1.4}
             className="fixed inset-0 -z-20 pointer-events-none"
           />
         )}
@@ -63,7 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {windowHeight > 0 && (
           <StallionBackground
             startX={170}
-            startY={windowHeight / 2}
+            startY={windowHeight / 3}
             className="fixed inset-0 -z-20 pointer-events-none"
           />
         )}
