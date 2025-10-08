@@ -1,22 +1,33 @@
 'use client';
 
 import './globals.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import '@fontsource/inter';
 import '@fontsource/playfair-display/700.css';
-import GoldParticles from './components/GoldParticles';
+import dynamic from 'next/dynamic';
 import BackgroundMusic from './components/BackgroundMusic';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import PhoenixBackground from './components/PhoenixBackground'; 
-import StallionBackground from './components/StallionBackground'; 
+
+// ✅ Dynamically import particle + background components to disable SSR
+const GoldParticles = dynamic(() => import('./components/GoldParticles'), { ssr: false });
+const PhoenixBackground = dynamic(() => import('./components/PhoenixBackground'), { ssr: false });
+const StallionBackground = dynamic(() => import('./components/StallionBackground'), { ssr: false });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const [windowHeight, setWindowHeight] = useState(0);
+
   useEffect(() => {
+    // ✅ Run only in browser
+    if (typeof window === 'undefined') return;
+
+    setWindowHeight(window.innerHeight);
+
     const handleMove = (e: MouseEvent) => {
       document.body.style.setProperty('--x', `${e.clientX}px`);
       document.body.style.setProperty('--y', `${e.clientY}px`);
     };
+
     window.addEventListener('mousemove', handleMove);
 
     const elements = document.querySelectorAll('.scroll-fade');
@@ -30,17 +41,32 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     );
     elements.forEach((el) => observer.observe(el));
 
-    return () => window.removeEventListener('mousemove', handleMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMove);
+      observer.disconnect();
+    };
   }, []);
 
   return (
     <html lang="en">
       <body className="relative text-gray-100">
         {/* Phoenix spawns on left side */}
-        <PhoenixBackground startX={835} startY={window.innerHeight / 2} className="fixed inset-0 -z-20 pointer-events-none" />
+        {windowHeight > 0 && (
+          <PhoenixBackground
+            startX={835}
+            startY={windowHeight / 2}
+            className="fixed inset-0 -z-20 pointer-events-none"
+          />
+        )}
 
         {/* Stallion spawns on right side */}
-        <StallionBackground startX={170} startY={window.innerHeight / 2} className="fixed inset-0 -z-20 pointer-events-none" />
+        {windowHeight > 0 && (
+          <StallionBackground
+            startX={170}
+            startY={windowHeight / 2}
+            className="fixed inset-0 -z-20 pointer-events-none"
+          />
+        )}
 
         {/* Gold particle background */}
         <GoldParticles className="fixed inset-0 -z-10 pointer-events-none" />

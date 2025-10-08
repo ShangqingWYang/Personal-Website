@@ -118,7 +118,7 @@ export default function BackgroundMusic() {
           hover:before:animate-[sparkle_1.5s_linear_infinite]
         "
       >
-        <it>Maria Callas</it>
+        Maria Callas
       </button>
       
       )}
