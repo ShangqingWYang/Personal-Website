@@ -1,26 +1,264 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* Noir luxury global style */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --gold: #d4af37;
+  --gold-light: #f7d774;
+  --bg-dark: #0b0b0b;
+  --text-main: #f2f2f2;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
 }
+
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', serif;
+}
+
+a {
+  color: var(--gold);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+a:hover {
+  color: var(--gold-light);
+}
+
+/* Cleaned up section class — NO @apply */
+.section {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+}
+/* Glowing cursor effect */
+body::after {
+  content: '';
+  position: fixed;
+  top: var(--y);
+  left: var(--x);
+  width: 30px;
+  height: 30px;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,175,55,0.8) 0%, rgba(212,175,55,0.2) 40%, transparent 80%);
+  mix-blend-mode: screen;
+  transition: transform 0.05s ease-out;
+  z-index: 9999;
+}
+/* Fade-in animation for sections */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Floating gold particles */
+.particle {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(circle, #d4af37 0%, #f0e68c 80%);
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  animation: floatParticle linear infinite;
+  z-index: 999;
+}
+
+@keyframes floatParticle {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-50px) translateX(20px) scale(1.3);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-100px) translateX(0) scale(1);
+    opacity: 0;
+  }
+}
+/* Glowing gold hover for links */
+a.glow-hover {
+  color: #f0e68c;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+a.glow-hover::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #d4af37, #f0e68c);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+a.glow-hover:hover::after {
+  transform: scaleX(1);
+}
+
+/* Text shimmer animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.text-shimmer {
+  display: inline-block;
+  background: linear-gradient(90deg, #d4af37, #f0e68c, #d4af37);
+  background-size: 200% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: shimmer 2.5s linear infinite;
+}
+/* Gold particle styling */
+.particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(circle, #d4af37 0%, #f0e68c 100%);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.8;
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
+}
+.scroll-fade {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.scroll-fade.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+@keyframes floating-card {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+.animate-floating-card {
+  animation: floating-card 6s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+@keyframes shineMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes shineMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes shimmerPulse {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.4); }
+}
+
+@keyframes glint {
+  0% {
+    transform: translateX(-100%) skewX(-20deg);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(50%) skewX(-20deg);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(150%) skewX(-20deg);
+    opacity: 0;
+  }
+}
+
+.animate-glint {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+  animation: glint 5s infinite;
+  mix-blend-mode: overlay;
+}
+@keyframes glintMove {
+  0% { transform: translateX(-100%) rotate(12deg); }
+  100% { transform: translateX(150%) rotate(12deg); }
+}
+
+@keyframes sparkle1 {
+  0%, 100% { opacity: 0.5; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-2px); }
+}
+
+@keyframes sparkle2 {
+  0%, 100% { opacity: 0.4; transform: translateY(0); }
+  50% { opacity: 0.8; transform: translateY(2px); }
+}@keyframes glintMove {
+  0% { transform: translateX(-100%) rotate(12deg); }
+  100% { transform: translateX(150%) rotate(12deg); }
+}
+
+@keyframes sparkle1 {
+  0%, 100% { opacity: 0.5; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-2px); }
+}
+
+@keyframes sparkle2 {
+  0%, 100% { opacity: 0.4; transform: translateY(0); }
+  50% { opacity: 0.8; transform: translateY(2px); }
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+@keyframes sparkle3 {
+  0%, 100% { opacity: 0.6; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-1.5px); }
+}
+
