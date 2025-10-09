@@ -28,12 +28,14 @@ const projects = [
   },
 ];
 
-// Reusable AdSense component
+// Reusable AdSense unit
 function AdUnit({ slot }: { slot: string }) {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       try {
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
+        // TypeScript-safe: tell TS that adsbygoogle exists
+        (window as any).adsbygoogle = (window as any).adsbygoogle || [];
+        (window as any).adsbygoogle.push({});
       } catch (e) {
         console.error(e);
       }
@@ -56,7 +58,7 @@ export default function HomePage() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    // ✅ Load AdSense script dynamically
+    // ✅ Dynamically add AdSense script
     const script = document.createElement('script');
     script.async = true;
     script.src =
@@ -94,7 +96,6 @@ export default function HomePage() {
     <main className="min-h-screen flex flex-col items-center justify-center text-center bg-black text-gray-100 px-4">
       {/* Hero Section */}
       <section className="section fade-in">
-        {/* SQWY title */}
         <h1
           className="
             text-[8rem] md:text-[10rem]
@@ -110,11 +111,9 @@ export default function HomePage() {
           }}
         >
           SQWY
-          {/* Optional glint overlay */}
           <span className="absolute inset-0 bg-gradient-to-r from-white/50 via-white/20 to-white/0 animate-[shineMove_10s_linear_infinite] pointer-events-none"></span>
         </h1>
 
-        {/* Subtitle */}
         <p
           className="text-2xl md:text-4xl font-serif italic max-w-2xl mx-auto mb-12 relative drop-shadow-[0_2px_15px_rgba(255,255,255,0.3)] overflow-hidden"
           style={{
@@ -148,15 +147,11 @@ export default function HomePage() {
         ))}
       </section>
 
-      {/* AdSense Mid-Page Banner */}
-      <AdUnit slot="1234567891" />
-
       {/* Contact Section */}
       <section
         id="contact"
         className="section flex flex-col items-center fade-in mt-24 w-full px-6 md:px-0 relative"
       >
-        {/* Floating shimmer particles behind form */}
         <div className="absolute inset-0 -z-10 overflow-hidden">
           {Array.from({ length: 25 }).map((_, i) => (
             <div
@@ -172,7 +167,6 @@ export default function HomePage() {
           ))}
         </div>
 
-        {/* Luxurious Contact Header */}
         <div className="relative z-20 inline-block px-4 py-2 bg-black/30 rounded">
           <h2
             className="text-6xl md:text-7xl font-playfair tracking-[0.25em] text-center"
@@ -190,7 +184,6 @@ export default function HomePage() {
           </h2>
         </div>
 
-        {/* Floating Organic Glass Form */}
         <form
           action="mailto:sqwyofficial@gmail.com"
           method="post"
