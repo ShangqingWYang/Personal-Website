@@ -28,10 +28,41 @@ const projects = [
   },
 ];
 
+// Reusable AdSense component
+function AdUnit({ slot }: { slot: string }) {
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }, []);
+
+  return (
+    <ins
+      className="adsbygoogle"
+      style={{ display: 'block', margin: '2rem 0' }}
+      data-ad-client="ca-pub-8176331384379089"
+      data-ad-slot={slot}
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+    ></ins>
+  );
+}
+
 export default function HomePage() {
   useEffect(() => {
-    // ✅ guard to prevent SSR window errors
     if (typeof window === 'undefined') return;
+
+    // ✅ Load AdSense script dynamically
+    const script = document.createElement('script');
+    script.async = true;
+    script.src =
+      'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8176331384379089';
+    script.crossOrigin = 'anonymous';
+    document.head.appendChild(script);
 
     // Cursor tracking
     const handleMove = (e: MouseEvent) => {
@@ -55,6 +86,7 @@ export default function HomePage() {
     return () => {
       window.removeEventListener('mousemove', handleMove);
       observer.disconnect();
+      document.head.removeChild(script);
     };
   }, []);
 
@@ -101,6 +133,9 @@ export default function HomePage() {
         </p>
       </section>
 
+      {/* AdSense Hero Banner */}
+      <AdUnit slot="1234567890" />
+
       {/* Projects Section */}
       <section className="section grid grid-cols-1 md:grid-cols-3 gap-12 fade-in w-full max-w-6xl px-6 md:px-0">
         {projects.map((project, idx) => (
@@ -112,6 +147,9 @@ export default function HomePage() {
           />
         ))}
       </section>
+
+      {/* AdSense Mid-Page Banner */}
+      <AdUnit slot="1234567891" />
 
       {/* Contact Section */}
       <section
@@ -188,8 +226,6 @@ export default function HomePage() {
           </button>
         </form>
       </section>
-
-      
     </main>
   );
 }
