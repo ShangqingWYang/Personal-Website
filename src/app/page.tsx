@@ -42,6 +42,8 @@ function AdUnit({ slot }: { slot: string }) {
     }
   }, []);
 
+
+
   return (
     <ins
       className="adsbygoogle"
