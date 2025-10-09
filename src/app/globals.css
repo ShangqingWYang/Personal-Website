@@ -32,20 +32,17 @@ a:hover {
   color: var(--gold-light);
 }
 
-/* Cleaned up section class — NO @apply */
+/* Section padding */
 .section {
-  padding-top: 6rem;
-  padding-bottom: 6rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding: 6rem 1.5rem;
 }
 
 @media (min-width: 768px) {
   .section {
-    padding-left: 4rem;
-    padding-right: 4rem;
+    padding: 6rem 4rem;
   }
 }
+
 /* Glowing cursor effect */
 body::after {
   content: '';
@@ -62,6 +59,7 @@ body::after {
   transition: transform 0.05s ease-out;
   z-index: 9999;
 }
+
 /* Fade-in animation for sections */
 .fade-in {
   opacity: 0;
@@ -73,34 +71,27 @@ body::after {
   opacity: 1;
   transform: translateY(0);
 }
-/* Floating gold particles */
+
+/* Particle */
 .particle {
-  position: fixed;
+  position: absolute;
   width: 6px;
   height: 6px;
-  background: radial-gradient(circle, #d4af37 0%, #f0e68c 80%);
+  background: radial-gradient(circle, #d4af37 0%, #f0e68c 100%);
   border-radius: 50%;
   pointer-events: none;
+  opacity: 0.8;
   mix-blend-mode: screen;
-  animation: floatParticle linear infinite;
-  z-index: 999;
+  will-change: transform, opacity;
 }
 
 @keyframes floatParticle {
-  0% {
-    transform: translateY(0) translateX(0) scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: translateY(-50px) translateX(20px) scale(1.3);
-    opacity: 0.7;
-  }
-  100% {
-    transform: translateY(-100px) translateX(0) scale(1);
-    opacity: 0;
-  }
+  0% { transform: translateY(0) translateX(0) scale(1); opacity: 1; }
+  50% { transform: translateY(-50px) translateX(20px) scale(1.3); opacity: 0.7; }
+  100% { transform: translateY(-100px) translateX(0) scale(1); opacity: 0; }
 }
-/* Glowing gold hover for links */
+
+/* Glowing gold hover links */
 a.glow-hover {
   color: #f0e68c;
   text-decoration: none;
@@ -127,12 +118,8 @@ a.glow-hover:hover::after {
 
 /* Text shimmer animation */
 @keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 .text-shimmer {
@@ -144,18 +131,8 @@ a.glow-hover:hover::after {
   -webkit-background-clip: text;
   animation: shimmer 2.5s linear infinite;
 }
-/* Gold particle styling */
-.particle {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background: radial-gradient(circle, #d4af37 0%, #f0e68c 100%);
-  border-radius: 50%;
-  pointer-events: none;
-  opacity: 0.8;
-  mix-blend-mode: screen;
-  will-change: transform, opacity;
-}
+
+/* Scroll fade */
 .scroll-fade {
   opacity: 0;
   transform: translateY(20px);
@@ -166,6 +143,8 @@ a.glow-hover:hover::after {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Floating card animation */
 @keyframes floating-card {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-12px); }
@@ -174,19 +153,8 @@ a.glow-hover:hover::after {
 .animate-floating-card {
   animation: floating-card 6s ease-in-out infinite;
 }
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-@keyframes shineMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
+
+/* Shine / gradient animations */
 @keyframes shineMove {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -199,18 +167,9 @@ a.glow-hover:hover::after {
 }
 
 @keyframes glint {
-  0% {
-    transform: translateX(-100%) skewX(-20deg);
-    opacity: 0;
-  }
-  50% {
-    transform: translateX(50%) skewX(-20deg);
-    opacity: 0.6;
-  }
-  100% {
-    transform: translateX(150%) skewX(-20deg);
-    opacity: 0;
-  }
+  0% { transform: translateX(-100%) skewX(-20deg); opacity: 0; }
+  50% { transform: translateX(50%) skewX(-20deg); opacity: 0.6; }
+  100% { transform: translateX(150%) skewX(-20deg); opacity: 0; }
 }
 
 .animate-glint {
@@ -223,6 +182,7 @@ a.glow-hover:hover::after {
   animation: glint 5s infinite;
   mix-blend-mode: overlay;
 }
+
 @keyframes glintMove {
   0% { transform: translateX(-100%) rotate(12deg); }
   100% { transform: translateX(150%) rotate(12deg); }
@@ -236,29 +196,15 @@ a.glow-hover:hover::after {
 @keyframes sparkle2 {
   0%, 100% { opacity: 0.4; transform: translateY(0); }
   50% { opacity: 0.8; transform: translateY(2px); }
-}@keyframes glintMove {
-  0% { transform: translateX(-100%) rotate(12deg); }
-  100% { transform: translateX(150%) rotate(12deg); }
 }
 
-@keyframes sparkle1 {
-  0%, 100% { opacity: 0.5; transform: translateY(0); }
-  50% { opacity: 1; transform: translateY(-2px); }
-}
-
-@keyframes sparkle2 {
-  0%, 100% { opacity: 0.4; transform: translateY(0); }
-  50% { opacity: 0.8; transform: translateY(2px); }
-}
 @keyframes gradientShift {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
-
 @keyframes sparkle3 {
   0%, 100% { opacity: 0.6; transform: translateY(0); }
   50% { opacity: 1; transform: translateY(-1.5px); }
 }
-

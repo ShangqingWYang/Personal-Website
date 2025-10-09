@@ -9,7 +9,6 @@ interface GoldParticlesProps {
 }
 
 export default function GoldParticles({ className }: GoldParticlesProps) {
-  // Initialize the particles engine
   const particlesInit = useCallback(async (engine: any) => {
     await loadFull(engine);
   }, []);
@@ -24,32 +23,44 @@ export default function GoldParticles({ className }: GoldParticlesProps) {
         fpsLimit: 60,
         interactivity: {
           detectsOn: 'window',
-          events: { onHover: { enable: false }, onClick: { enable: false } },
+          events: {
+            onHover: { enable: false },
+            onClick: { enable: false },
+          },
         },
         particles: {
           color: { value: '#ffd700' },
           move: {
             enable: true,
-            speed: 0.2,
+            speed: 0.5,             // slower for a smooth drift
             direction: 'none',
             outModes: { default: 'out' },
-            random: true,
+            random: true,           // slight randomness in direction
             straight: false,
           },
-          number: { value: 60, density: { enable: true, area: 1500 } },
+          number: {
+            value: 80,
+            density: { enable: true, area: 1200 },
+          },
           opacity: {
-            value: 0.4,
-            random: { enable: true, minimumValue: 0.1 },
-            animation: { enable: true, speed: 20, minimumValue: 0.1, sync: false },
+            value: 0.5,             // steady opacity
+            random: false,          // no random flicker
+            animation: { enable: false }, // disable shimmer animation
           },
           shape: { type: 'circle' },
-          size: { value: { min: 1, max: 3 }, random: true },
+          size: {
+            value: { min: 1, max: 3 },
+            random: true,
+            animation: { enable: false }, // optional: prevent pulsing size
+          },
         },
         detectRetina: true,
         responsive: [
           {
             maxWidth: 1500,
-            options: { particles: { number: { value: 100 } } },
+            options: {
+              particles: { number: { value: 120 } },
+            },
           },
         ],
       }}
