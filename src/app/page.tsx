@@ -13,17 +13,17 @@ const projects = [
   },
   {
     title: 'OneWorld TM',
-    description: 'Connecting Humanity (Available for offers of purchase / investment)',
+    description: 'A silly little project connecting humanity',
     url: 'https://one-earth-nine.vercel.app',
   },
   {
     title: 'Research',
-    description: 'Coming Soon',
+    description: ':,,,( takes ages',
     url: 'https://your-mentorship-portal.com',
   },
   {
-    title: 'Project X',
-    description: 'Wait and See',
+    title: 'Novel',
+    description: 'Arriving 2040 at this rate XD',
     url: 'https://your-mentorship-portal.com',
   },
 ];
