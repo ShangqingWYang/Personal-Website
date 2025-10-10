@@ -14,7 +14,7 @@ const projects = [
   {
     title: 'OneWorld TM',
     description: 'Connecting Humanity (Available for offers of purchase / investment)',
-    url: 'https://your-brand-consulting.com',
+    url: 'https://one-earth-nine.vercel.app',
   },
   {
     title: 'Research',
