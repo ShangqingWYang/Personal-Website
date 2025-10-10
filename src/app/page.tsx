@@ -7,13 +7,13 @@ import ProjectCard from './components/ProjectCard';
 
 const projects = [
   {
-    title: 'Personal Statement Builder',
-    description: 'Create outstanding personal statements with step-by-step guidance.',
+    title: 'Tuition and University Admissions Consulting',
+    description: 'Granting education and opportunity to all',
     url: 'https://sqwy-reviews.vercel.app/',
   },
   {
-    title: 'University Admissions Consultation Portal',
-    description: 'Strategic insights and tools to aid your university admissions',
+    title: 'OneWorld TM',
+    description: 'Connecting Humanity (Available for offers of purchase / investment)',
     url: 'https://your-brand-consulting.com',
   },
   {
