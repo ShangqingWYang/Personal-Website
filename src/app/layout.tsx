@@ -8,7 +8,7 @@ import dynamic from 'next/dynamic';
 import BackgroundMusic from './components/BackgroundMusic';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import { Analytics } from "@vercel/analytics/next";
+import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 // ✅ Dynamically import particle + background components to disable SSR
