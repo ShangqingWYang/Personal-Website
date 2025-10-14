@@ -56,7 +56,7 @@ export default function SubpageLayout({ children }: { children: ReactNode }) {
       {/* Tree2 in center */}
       <img
         src="/Tree2.png"
-        alt="Tree 2"
+        alt="Tree2"
         className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2/5 opacity-50 -z-10 animate-sway-strong"
       />
 
