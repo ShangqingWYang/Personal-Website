@@ -3,11 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 
 export default function Header() {
-  const pathname = usePathname();
-  const isSubPage = pathname === '/chancan-shiye'; // Hide header on this page
   const navItems = [
     { name: 'About', href: '#about' },
     { name: 'Projects', href: '#projects' },
@@ -17,6 +14,7 @@ export default function Header() {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [hovering, setHovering] = useState(false);
 
+  // Cursor offset for 3D tilt effect
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 15;
@@ -26,8 +24,6 @@ export default function Header() {
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
-
-  if (isSubPage) return null; // <-- Don't render the header on subpage
 
   return (
     <motion.header
@@ -93,6 +89,7 @@ export default function Header() {
                 exit={{ opacity: 0, y: -50, scale: 0.5, rotateX: 25 }}
                 transition={{ type: 'spring', stiffness: 250, damping: 20 }}
               >
+                {/* Clickable Chinese subheading linking to new page */}
                 <Link href="/chancan-shiye" passHref>
                   <motion.span
                     className="hover:text-white text-2xl font-serif animate-glow transition-all duration-500 cursor-pointer"
@@ -107,6 +104,7 @@ export default function Header() {
         </div>
       </motion.nav>
 
+      {/* Header styles */}
       <style jsx>{`
         @keyframes shimmer {
           0% { background-position: -200% 0; }
@@ -116,6 +114,7 @@ export default function Header() {
           background-size: 200% auto;
           animation: shimmer 3s linear infinite;
         }
+
         @keyframes glow {
           0% { text-shadow: 0 0 5px #f0e68c; }
           50% { text-shadow: 0 0 20px #ffff80; }
@@ -124,6 +123,7 @@ export default function Header() {
         .animate-glow {
           animation: glow 2s infinite ease-in-out;
         }
+
         .perspective-1000 {
           perspective: 1000px;
         }
