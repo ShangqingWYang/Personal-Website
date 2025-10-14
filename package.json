@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.8",
+    "@fontsource/noto-serif-sc": "^5.2.8",
     "@fontsource/playfair-display": "^5.2.8",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
@@ -16,6 +17,7 @@
     "next": "15.5.4",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-router-dom": "^7.9.4",
     "react-tsparticles": "^2.10.0",
     "tsparticles": "^2.10.0",
     "tsparticles-engine": "^2.10.0"
