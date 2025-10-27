@@ -45,7 +45,7 @@ export default function Header() {
           animate={{ y: [0, -5, 0, 5, 0] }}
           transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
         >
-          SQWY
+          SY
         </motion.span>
         <span className="absolute inset-0 bg-gradient-to-r from-yellow-400 via-white to-yellow-400 bg-clip-text text-transparent opacity-20 animate-shimmer"></span>
       </motion.div>

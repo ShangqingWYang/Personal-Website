@@ -118,7 +118,7 @@ export default function BackgroundMusic() {
           hover:before:animate-[sparkle_1.5s_linear_infinite]
         "
       >
-        Maria Callas
+        Best Theme Tune
       </button>
       
       )}

@@ -100,7 +100,7 @@ export default function HomePage() {
       <section className="section fade-in">
         <h1
           className="
-            text-[8rem] md:text-[10rem]
+            text-[4rem] md:text-[10rem]
             font-extrabold
             tracking-tight
             relative
