@@ -45,11 +45,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <PhoenixBackground
   className="fixed top-1/2 right-0 -translate-y-1/2 -z-20 pointer-events-none !m-0 !p-0"
 />
-            <StallionBackground
-              startX={170}
-              startY={windowHeight / 3}
-              className="fixed inset-0 -z-20 pointer-events-none"
-            />
+<StallionBackground className="fixed inset-0 -z-20 pointer-events-none" />
+
             <GoldParticles className="fixed inset-0 -z-10 pointer-events-none" />
           </>
         )}
