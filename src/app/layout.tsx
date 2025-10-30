@@ -43,9 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {!isSubPage && windowHeight > 0 && (
           <>
             <PhoenixBackground
-  startX={window.innerWidth - 300} // optional offset if your Phoenix has width
-  startY={windowHeight / 1.4}
-  className="fixed right-0 top-1/2 -translate-y-1/2 -z-20 pointer-events-none"
+  className="fixed top-1/2 right-0 -translate-y-1/2 -z-20 pointer-events-none !m-0 !p-0"
 />
             <StallionBackground
               startX={170}

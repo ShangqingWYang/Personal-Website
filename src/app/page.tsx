@@ -22,13 +22,13 @@ const projects = [
   },
   {
     title: 'Novel',
-    description: 'Arriving 2040 at this rate XD',
+    description: 'zzzz',
   },
   {
     title: 'Anchor',
     description: 'In development - reducing digital addiction',
     url: 'https://your-mentorship-portal.com',
-  }
+  },
 ];
 
 // Reusable AdSense unit
@@ -36,7 +36,6 @@ function AdUnit({ slot }: { slot: string }) {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       try {
-        // TypeScript-safe: tell TS that adsbygoogle exists
         (window as any).adsbygoogle = (window as any).adsbygoogle || [];
         (window as any).adsbygoogle.push({});
       } catch (e) {
@@ -44,8 +43,6 @@ function AdUnit({ slot }: { slot: string }) {
       }
     }
   }, []);
-
-
 
   return (
     <ins
@@ -78,15 +75,18 @@ export default function HomePage() {
     };
     window.addEventListener('mousemove', handleMove);
 
-    // Fade-in observer
+    // Fade-in + parallax scroll observer
     const elements = document.querySelectorAll('.fade-in');
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('visible');
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            (entry.target as HTMLElement).style.transform = 'translateY(0)';
+          }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.15 }
     );
     elements.forEach((el) => observer.observe(el));
 
@@ -141,13 +141,17 @@ export default function HomePage() {
       <AdUnit slot="1234567890" />
 
       {/* Projects Section */}
-      <section className="section grid grid-cols-1 md:grid-cols-3 gap-12 fade-in w-full max-w-6xl px-6 md:px-0">
+      <section
+        id="projects"
+        className="section grid grid-cols-1 md:grid-cols-3 gap-12 fade-in w-full max-w-6xl px-6 md:px-0 pt-24 scroll-mt-24"
+      >
         {projects.map((project, idx) => (
           <ProjectCard
             key={idx}
             title={project.title}
             description={project.description}
-            url={project.url}
+            url={project.url ?? ''}
+
           />
         ))}
       </section>
@@ -155,7 +159,7 @@ export default function HomePage() {
       {/* Contact Section */}
       <section
         id="contact"
-        className="section flex flex-col items-center fade-in mt-24 w-full px-6 md:px-0 relative"
+        className="section flex flex-col items-center fade-in mt-24 w-full px-6 md:px-0 relative pt-24 scroll-mt-24"
       >
         <div className="absolute inset-0 -z-10 overflow-hidden">
           {Array.from({ length: 25 }).map((_, i) => (
@@ -224,6 +228,7 @@ export default function HomePage() {
           </button>
         </form>
       </section>
+
     </main>
   );
 }
