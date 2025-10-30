@@ -51,26 +51,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </>
         )}
 
-        {/* Optional: background music, can keep on subpage */}
-        <BackgroundMusic />
-
         {/* Main content wrapper */}
         <div className="relative z-10 flex flex-col items-center justify-center">
           {!isSubPage && <Header />}
-
-          {/* ✅ Sammy image section */}
-          {!isSubPage && (
-            <div className="my-6">
-              <Image
-                src="/Sammy.png"       // ✅ path from the public folder
-                alt="Sammy the hedgehog"
-                width={300}            // adjust as needed
-                height={300}
-                className="rounded-2xl shadow-lg"
-                priority
-              />
-            </div>
-          )}
 
           {children}
           {!isSubPage && <Footer />}

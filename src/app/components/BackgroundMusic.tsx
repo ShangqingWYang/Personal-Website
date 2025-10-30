@@ -2,7 +2,11 @@
 import React, { useRef, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 
-export default function BackgroundMusic() {
+interface BackgroundMusicProps {
+  inline?: boolean;
+}
+
+export default function BackgroundMusic({ inline = false }: BackgroundMusicProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [playing, setPlaying] = useState(false);
   const controls = useAnimation();
@@ -69,31 +73,64 @@ export default function BackgroundMusic() {
 
   return (
     <div
-      className="fixed right-10 z-50 flex flex-col items-center space-y-2"
-      style={{ top: '30px' }} // moved 50px lower than before
-    >
+  className={`${
+    inline
+      ? 'relative flex flex-col items-center space-y-2'
+      : 'fixed right-10 z-50 flex flex-col items-center space-y-2'
+  }`}
+  style={inline ? {} : { top: '30px' }}
+>
+
 
       {/* Vinyl disc button */}
       <motion.button
-        onClick={handleToggle}
-        animate={controls}
-        className={`
-          w-32 h-32 rounded-full
-          bg-gradient-to-b from-gray-900 to-black
-          border-4 border-gray-700
-          shadow-2xl
-          hover:scale-110 hover:shadow-3xl
-          transition-transform duration-300
-          relative flex items-center justify-center
-        `}
-      >
-        <div className="w-1/2 h-1/2 rounded-full bg-yellow-400 flex items-center justify-center text-black font-bold text-xl">
-          {playing ? '❚❚' : '▶'}
-        </div>
-        <div className="absolute w-full h-full rounded-full border border-gray-600 opacity-20"></div>
-        <div className="absolute w-3/4 h-3/4 rounded-full border border-gray-600 opacity-20"></div>
-      </motion.button>
-  
+  onClick={handleToggle}
+  animate={controls}
+  className={`
+    relative flex flex-col items-center justify-center
+    w-[14rem] h-[14rem] md:w-[20rem] md:h-[20rem]
+    rounded-full
+    bg-gradient-to-b from-yellow-200 via-yellow-300 to-yellow-400
+    border-[6px] border-yellow-500
+    shadow-[0_0_100px_rgba(255,240,160,1)]
+    hover:scale-110 hover:shadow-[0_0_140px_rgba(255,255,200,1)]
+    transition-transform duration-500
+    animate-float-cute
+  `}
+  style={{ zIndex: 100 }}
+>
+  {/* ✨ Cute label on top of button */}
+  <span
+    className="
+      absolute top-[20%]
+      text-2xl md:text-4xl
+      font-bold font-serif
+      text-yellow-900
+      drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]
+      pointer-events-none
+      animate-bounce
+    "
+  >
+    Best Theme Tune 🎵
+  </span>
+
+  {/* Inner glowing center play/pause */}
+  <div
+    className="
+      w-[50%] h-[50%]
+      rounded-full bg-white flex items-center justify-center
+      text-yellow-700 font-extrabold text-6xl md:text-8xl
+      shadow-[0_0_20px_rgba(255,255,255,0.9)]
+    "
+  >
+    {playing ? '❚❚' : '▶'}
+  </div>
+
+  {/* Glowy aura layers */}
+  <div className="absolute inset-0 rounded-full bg-yellow-200/30 blur-3xl animate-pulse"></div>
+  <div className="absolute w-full h-full rounded-full border-8 border-white/40 opacity-40"></div>
+</motion.button>
+
       {/* Click to play text */}
       {!playing && (
         <button
@@ -118,7 +155,7 @@ export default function BackgroundMusic() {
           hover:before:animate-[sparkle_1.5s_linear_infinite]
         "
       >
-        Best Theme Tune
+        Press
       </button>
       
       )}

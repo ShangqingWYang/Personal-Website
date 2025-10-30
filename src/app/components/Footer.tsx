@@ -98,12 +98,6 @@ export default function Footer() {
           <a href="https://github.com/ShangqingWYang" className="hover:text-yellow-400 transition-all text-lg font-medium">
             GitHub
           </a>
-          <a href="https://linkedin.com/in/yourusername" className="hover:text-yellow-400 transition-all text-lg font-medium">
-            LinkedIn
-          </a>
-          <a href="#contact" className="hover:text-yellow-400 transition-all text-lg font-medium">
-            Contact
-          </a>
         </div>
       </div>
     </footer>

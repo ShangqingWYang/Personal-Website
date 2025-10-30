@@ -4,6 +4,7 @@ import './globals.css';
 import { useEffect } from 'react';
 import Footer from './components/Footer';
 import ProjectCard from './components/ProjectCard';
+import BackgroundMusic from './components/BackgroundMusic';
 
 const projects = [
   {
@@ -99,43 +100,64 @@ export default function HomePage() {
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center text-center bg-black text-gray-100 px-4">
-      {/* Hero Section */}
-      <section className="section fade-in">
-        <h1
-          className="
-            text-[4rem] md:text-[10rem]
-            font-extrabold
-            tracking-tight
-            relative
-            drop-shadow-[0_0_20px_rgba(255,255,200,0.8)]
-          "
-          style={{
-            background: 'linear-gradient(90deg, #FFD700, #FFFFFF, #FFD700)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-          }}
-        >
-          Peace
-          <span className="absolute inset-0 bg-gradient-to-r from-white/50 via-white/20 to-white/0 animate-[shineMove_10s_linear_infinite] pointer-events-none"></span>
-        </h1>
+     {/* Hero Section */}
+<section className="section fade-in flex flex-col items-center justify-center relative">
+  <h1
+    className="
+      text-[4rem] md:text-[10rem]
+      font-extrabold
+      tracking-tight
+      relative
+      drop-shadow-[0_0_20px_rgba(255,255,200,0.8)]
+    "
+    style={{
+      background: 'linear-gradient(90deg, #FFD700, #FFFFFF, #FFD700)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+    }}
+  >
+    Peace
+    <span className="absolute inset-0 bg-gradient-to-r from-white/50 via-white/20 to-white/0 animate-[shineMove_10s_linear_infinite] pointer-events-none"></span>
+  </h1>
 
-        <p
-          className="text-2xl md:text-4xl font-serif italic max-w-2xl mx-auto mb-12 relative drop-shadow-[0_2px_15px_rgba(255,255,255,0.3)] overflow-hidden"
-          style={{
-            background:
-              'linear-gradient(90deg, #C0C0C0, #E0E0E0, #FFFFFF, #E0E0E0, #C0C0C0)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundSize: '200% 200%',
-            animation: 'silverShift 6s ease-in-out infinite alternate',
-          }}
-        >
-          A calming place 
-          <span className="absolute top-0 left-0 w-1/3 h-full bg-white/25 rotate-12 -translate-x-full animate-[glintSilver_2s_linear_infinite] pointer-events-none"></span>
-          <span className="absolute top-1/3 left-1/4 w-1 h-1 bg-white rounded-full opacity-70 animate-[sparkleSilver1_3s_linear_infinite] pointer-events-none"></span>
-          <span className="absolute top-1/2 left-2/3 w-1.5 h-1.5 bg-gray-200 rounded-full opacity-60 animate-[sparkleSilver2_4s_linear_infinite] pointer-events-none"></span>
-        </p>
-      </section>
+  
+
+  <p
+    className="text-2xl md:text-4xl font-serif italic max-w-2xl mx-auto mb-12 relative drop-shadow-[0_2px_15px_rgba(255,255,255,0.3)] overflow-hidden"
+    style={{
+      background:
+        'linear-gradient(90deg, #C0C0C0, #E0E0E0, #FFFFFF, #E0E0E0, #C0C0C0)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+      backgroundSize: '200% 200%',
+      animation: 'silverShift 6s ease-in-out infinite alternate',
+    }}
+  >
+    A calming place
+    <span className="absolute top-0 left-0 w-1/3 h-full bg-white/25 rotate-12 -translate-x-full animate-[glintSilver_2s_linear_infinite] pointer-events-none"></span>
+    <span className="absolute top-1/3 left-1/4 w-1 h-1 bg-white rounded-full opacity-70 animate-[sparkleSilver1_3s_linear_infinite] pointer-events-none"></span>
+    <span className="absolute top-1/2 left-2/3 w-1.5 h-1.5 bg-gray-200 rounded-full opacity-60 animate-[sparkleSilver2_4s_linear_infinite] pointer-events-none"></span>
+  </p>
+</section>
+<section className="section fade-in flex flex-col items-center justify-center relative gap-30"></section>
+
+<div className="relative flex flex-col items-center justify-center my-16">
+  {/* 🦔 Sammy container */}
+  <div className="relative flex items-center justify-center">
+    {/* The spinning Sammy */}
+    <img
+      src="/Sammy.png"
+      alt="Sammy the hedgehog"
+      className="w-16 h-auto md:w-24 animate-spin-slow select-none"
+    />
+
+    {/* 🎵 BackgroundMusic button directly centered on Sammy */}
+    <div className="absolute inset-0 flex items-center justify-center pointer-events-auto">
+      <BackgroundMusic inline />
+    </div>
+  </div>
+</div>
+
 
       {/* AdSense Hero Banner */}
       <AdUnit slot="1234567890" />

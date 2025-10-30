@@ -269,3 +269,19 @@ a.glow-hover:hover::after {
   animation: swayStrong 6s ease-in-out infinite;
   transform-origin: bottom center;
 }
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* 🦔 Spin faster on hover */
+.animate-spin-slow:hover {
+  animation: spin-slow 2s linear infinite; /* 4x faster when hovered */
+  transform: scale(1.05); /* a cute zoom effect */
+}
