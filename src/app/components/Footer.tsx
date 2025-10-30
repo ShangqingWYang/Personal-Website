@@ -95,7 +95,7 @@ export default function Footer() {
           &copy; {new Date().getFullYear()} Website built from scratch by SY. All rights reserved.
         </p>
         <div className="flex justify-around w-full md:w-1/3 mt-6 md:mt-0">
-          <a href="https://github.com/yourusername" className="hover:text-yellow-400 transition-all text-lg font-medium">
+          <a href="https://github.com/ShangqingWYang" className="hover:text-yellow-400 transition-all text-lg font-medium">
             GitHub
           </a>
           <a href="https://linkedin.com/in/yourusername" className="hover:text-yellow-400 transition-all text-lg font-medium">

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import '@fontsource/inter';
 import '@fontsource/playfair-display/700.css';
 import dynamic from 'next/dynamic';
+import Image from 'next/image'; // ✅ import Next.js image component
 import BackgroundMusic from './components/BackgroundMusic';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -42,10 +43,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {!isSubPage && windowHeight > 0 && (
           <>
             <PhoenixBackground
-              startX={835}
-              startY={windowHeight / 1.4}
-              className="fixed inset-0 -z-20 pointer-events-none"
-            />
+  startX={window.innerWidth - 300} // optional offset if your Phoenix has width
+  startY={windowHeight / 1.4}
+  className="fixed right-0 top-1/2 -translate-y-1/2 -z-20 pointer-events-none"
+/>
             <StallionBackground
               startX={170}
               startY={windowHeight / 3}
@@ -59,8 +60,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <BackgroundMusic />
 
         {/* Main content wrapper */}
-        <div className="relative z-10">
+        <div className="relative z-10 flex flex-col items-center justify-center">
           {!isSubPage && <Header />}
+
+          {/* ✅ Sammy image section */}
+          {!isSubPage && (
+            <div className="my-6">
+              <Image
+                src="/Sammy.png"       // ✅ path from the public folder
+                alt="Sammy the hedgehog"
+                width={300}            // adjust as needed
+                height={300}
+                className="rounded-2xl shadow-lg"
+                priority
+              />
+            </div>
+          )}
+
           {children}
           {!isSubPage && <Footer />}
         </div>

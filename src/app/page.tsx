@@ -19,13 +19,16 @@ const projects = [
   {
     title: 'Research',
     description: ':,,,( takes ages',
-    url: 'https://your-mentorship-portal.com',
   },
   {
     title: 'Novel',
     description: 'Arriving 2040 at this rate XD',
-    url: 'https://your-mentorship-portal.com',
   },
+  {
+    title: 'Anchor',
+    description: 'In development - reducing digital addiction',
+    url: 'https://your-mentorship-portal.com',
+  }
 ];
 
 // Reusable AdSense unit
@@ -112,7 +115,7 @@ export default function HomePage() {
             WebkitTextFillColor: 'transparent',
           }}
         >
-          SQWY
+          Peace
           <span className="absolute inset-0 bg-gradient-to-r from-white/50 via-white/20 to-white/0 animate-[shineMove_10s_linear_infinite] pointer-events-none"></span>
         </h1>
 
@@ -127,7 +130,7 @@ export default function HomePage() {
             animation: 'silverShift 6s ease-in-out infinite alternate',
           }}
         >
-          A comprehensive collection of ongoing projects
+          A calming place 
           <span className="absolute top-0 left-0 w-1/3 h-full bg-white/25 rotate-12 -translate-x-full animate-[glintSilver_2s_linear_infinite] pointer-events-none"></span>
           <span className="absolute top-1/3 left-1/4 w-1 h-1 bg-white rounded-full opacity-70 animate-[sparkleSilver1_3s_linear_infinite] pointer-events-none"></span>
           <span className="absolute top-1/2 left-2/3 w-1.5 h-1.5 bg-gray-200 rounded-full opacity-60 animate-[sparkleSilver2_4s_linear_infinite] pointer-events-none"></span>

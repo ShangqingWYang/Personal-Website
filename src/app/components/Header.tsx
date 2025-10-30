@@ -27,7 +27,7 @@ export default function Header() {
 
   return (
     <motion.header
-      className="w-full flex items-center justify-between px-10 md:px-20 pt-6 md:pt-8 z-50 bg-gray-900/90 backdrop-blur-sm fixed top-0 left-0 perspective-1000 shadow-lg"
+    className="w-full flex items-center justify-between px-10 md:px-20 pt-6 md:pt-8 fixed top-0 left-0 bg-gray-900/90 backdrop-blur-sm shadow-lg perspective-1000 z-[100] relative"
       initial={{ y: -200, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ type: 'spring', stiffness: 200, damping: 25 }}
