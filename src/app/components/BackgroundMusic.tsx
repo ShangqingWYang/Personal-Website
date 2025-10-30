@@ -52,113 +52,83 @@ export default function BackgroundMusic({ inline = false }: BackgroundMusicProps
     }
   };
 
-  const handlePlay = () => {
-    initAudio();
-    fadeAudio(true);
-    controls.start({ rotate: 360, transition: { repeat: Infinity, ease: 'linear', duration: 10 } });
-    setPlaying(true);
-  };
-
   const handleToggle = () => {
-    if (!audioRef.current) return;
-    if (playing) {
+    initAudio(); // ✅ make sure audio is ready
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (!playing) {
+      fadeAudio(true);
+      controls.start({
+        rotate: 360,
+        transition: { repeat: Infinity, ease: 'linear', duration: 10 },
+      });
+    } else {
       fadeAudio(false);
       controls.stop();
-    } else {
-      fadeAudio(true);
-      controls.start({ rotate: 360, transition: { repeat: Infinity, ease: 'linear', duration: 10 } });
     }
+
     setPlaying(!playing);
   };
 
   return (
     <div
-  className={`${
-    inline
-      ? 'relative flex flex-col items-center space-y-2'
-      : 'fixed right-10 z-50 flex flex-col items-center space-y-2'
-  }`}
-  style={inline ? {} : { top: '30px' }}
->
-
-
-      {/* Vinyl disc button */}
+      className={`${
+        inline
+          ? 'relative flex flex-col items-center space-y-2'
+          : 'fixed right-10 z-50 flex flex-col items-center space-y-2'
+      }`}
+      style={inline ? {} : { top: '30px' }}
+    >
+      {/* 🎵 Giant glowing vinyl button */}
       <motion.button
-  onClick={handleToggle}
-  animate={controls}
-  className={`
-    relative flex flex-col items-center justify-center
-    w-[14rem] h-[14rem] md:w-[20rem] md:h-[20rem]
-    rounded-full
-    bg-gradient-to-b from-yellow-200 via-yellow-300 to-yellow-400
-    border-[6px] border-yellow-500
-    shadow-[0_0_100px_rgba(255,240,160,1)]
-    hover:scale-110 hover:shadow-[0_0_140px_rgba(255,255,200,1)]
-    transition-transform duration-500
-    animate-float-cute
-  `}
-  style={{ zIndex: 100 }}
->
-  {/* ✨ Cute label on top of button */}
-  <span
-    className="
-      absolute top-[20%]
-      text-2xl md:text-4xl
-      font-bold font-serif
-      text-yellow-900
-      drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]
-      pointer-events-none
-      animate-bounce
-    "
-  >
-    Best Theme Tune 🎵
-  </span>
-
-  {/* Inner glowing center play/pause */}
-  <div
-    className="
-      w-[50%] h-[50%]
-      rounded-full bg-white flex items-center justify-center
-      text-yellow-700 font-extrabold text-6xl md:text-8xl
-      shadow-[0_0_20px_rgba(255,255,255,0.9)]
-    "
-  >
-    {playing ? '❚❚' : '▶'}
-  </div>
-
-  {/* Glowy aura layers */}
-  <div className="absolute inset-0 rounded-full bg-yellow-200/30 blur-3xl animate-pulse"></div>
-  <div className="absolute w-full h-full rounded-full border-8 border-white/40 opacity-40"></div>
-</motion.button>
-
-      {/* Click to play text */}
-      {!playing && (
-        <button
-        onClick={handlePlay}
-        className="
-          relative
-          px-6 py-3
-          text-lg md:text-xl
-          font-serif font-bold
-          text-transparent
-          bg-clip-text
-          bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-300
-          shadow-[0_0_8px_rgba(255,255,200,0.5)]
-          rounded-lg
-          border border-yellow-300/50
-          transition-all duration-500
-          hover:scale-110 hover:shadow-[0_0_20px_rgba(255,255,200,0.9)]
-          overflow-hidden
-          before:absolute before:top-0 before:left-0 before:w-full before:h-full
-          before:opacity-0 before:bg-white/20 before:blur-xl before:rounded-lg
-          hover:before:opacity-100
-          hover:before:animate-[sparkle_1.5s_linear_infinite]
-        "
+        onClick={handleToggle} // ✅ single handler
+        animate={controls}
+        className={`
+          relative flex flex-col items-center justify-center
+          w-[4.5rem] h-[4.5rem] md:w-[25rem] md:h-[25rem]
+          rounded-full
+          border-[8px]
+          transition-all duration-700 ease-in-out
+          animate-float-cute
+          ${playing
+            ? 'bg-gradient-to-b from-sky-300 via-sky-400 to-blue-500 border-blue-600 shadow-[0_0_160px_rgba(150,200,255,1)]'
+            : 'bg-gradient-to-b from-white via-gray-100 to-gray-300 border-gray-400 shadow-[0_0_80px_rgba(255,255,255,0.8)]'}
+        `}
+        
+        style={{ zIndex: 100 }}
       >
-        Press
-      </button>
-      
-      )}
+    
+        {/* ✨ Huge label ON the button */}
+        {!playing && (
+          <span
+            className="
+              absolute top-[20%]
+              text-2xl md:text-2xl font-playfair text-yellow-900
+              drop-shadow-[0_0_25px_rgba(255,0,255,0.9)]
+              pointer-events-none text-center tracking-wide animate-bounce
+            "
+          >
+            PRESS 🎵
+          </span>
+        )}
+
+        {/* Inner glowing center play/pause */}
+        <div
+          className="
+            w-[55%] h-[55%]
+            rounded-full bg-white flex items-center justify-center
+            text-yellow-700 font-extrabold text-7xl md:text-9xl
+            shadow-[0_0_30px_rgba(255,255,255,0.9)]
+          "
+        >
+          {playing ? '❚❚' : '▶'}
+        </div>
+
+        {/* Glowy aura layers */}
+        <div className="absolute inset-0 rounded-full bg-yellow-200/40 blur-3xl animate-pulse"></div>
+        <div className="absolute w-full h-full rounded-full border-[10px] border-white/40 opacity-40"></div>
+      </motion.button>
     </div>
   );
 }

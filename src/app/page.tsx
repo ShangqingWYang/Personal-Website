@@ -142,19 +142,14 @@ export default function HomePage() {
 <section className="section fade-in flex flex-col items-center justify-center relative gap-30"></section>
 
 <div className="relative flex flex-col items-center justify-center my-16">
-  {/* 🦔 Sammy container */}
-  <div className="relative flex items-center justify-center">
-    {/* The spinning Sammy */}
-    <img
-      src="/Sammy.png"
-      alt="Sammy the hedgehog"
-      className="w-16 h-auto md:w-24 animate-spin-slow select-none"
-    />
+  <img
+    src="/Sammy.png"
+    alt="Sammy the hedgehog"
+    className="w-[400px] h-auto animate-spin-slow select-none relative z-10"
+  />
 
-    {/* 🎵 BackgroundMusic button directly centered on Sammy */}
-    <div className="absolute inset-0 flex items-center justify-center pointer-events-auto">
-      <BackgroundMusic inline />
-    </div>
+  <div className="absolute inset-0 flex items-center justify-center pointer-events-auto z-20 opacity-70">
+    <BackgroundMusic inline />
   </div>
 </div>
 

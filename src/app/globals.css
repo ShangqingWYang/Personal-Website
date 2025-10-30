@@ -285,3 +285,19 @@ a.glow-hover:hover::after {
   animation: spin-slow 2s linear infinite; /* 4x faster when hovered */
   transform: scale(1.05); /* a cute zoom effect */
 }
+
+@keyframes colorShift {
+  0% {
+    background: linear-gradient(to bottom, white, #e0f2fe, #93c5fd);
+  }
+  50% {
+    background: linear-gradient(to bottom, #93c5fd, #3b82f6, #1e3a8a);
+  }
+  100% {
+    background: linear-gradient(to bottom, white, #e0f2fe, #93c5fd);
+  }
+}
+
+.animate-colorShift {
+  animation: colorShift 6s ease-in-out infinite alternate;
+}
