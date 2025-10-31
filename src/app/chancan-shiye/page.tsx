@@ -1,33 +1,65 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import '@fontsource/zhi-mang-xing/400.css'; // Brush-style Chinese calligraphy font
+import '@fontsource/zhi-mang-xing/400.css';
 import '@fontsource/noto-serif-sc/400.css';
 import '@fontsource/noto-serif-sc/700.css';
 
 export default function ChancanShiyePage() {
+  const [petals, setPetals] = useState<React.ReactElement[]>([]);
+
+  useEffect(() => {
+    const generatedPetals = Array.from({ length: 40 }, (_, i) => {
+      const size = Math.random() * 18 + 6;
+      const left = Math.random() * window.innerWidth;
+      const delay = Math.random() * 8;
+      const duration = Math.random() * 10 + 10;
+      const drift = Math.random() * 80 - 40;
+      const hue = Math.random() * 20 + 340; // pink hues
+
+      return (
+        <div
+          key={i}
+          className="petal-local"
+          style={{
+            width: `${size}px`,
+            height: `${size * 0.8}px`,
+            left: `${left}px`,
+            animationDelay: `${delay}s`,
+            animationDuration: `${duration}s`,
+            ['--drift' as any]: `${drift}px`,
+            ['--hue' as any]: hue,
+          }}
+        />
+      );
+    });
+    setPetals(generatedPetals);
+  }, []);
+
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen px-6 text-center overflow-hidden bg-transparent">
-      {/* 🌳 Background tree image placeholder (handled by layout, ensures layering) */}
+      {/* 🌳 Tree background */}
       <div
-        className="fixed inset-0 -z-20 bg-center bg-contain bg-no-repeat animate-sway-slow pointer-events-none select-none opacity-0"
+        className="fixed inset-0 -z-20 bg-center bg-contain bg-no-repeat animate-sway-slow pointer-events-none select-none opacity-25"
         style={{ backgroundImage: "url('/Tree2.png')" }}
       />
 
+      {/* 🌸 Floating petals */}
+      <div className="absolute inset-0 z-10 overflow-hidden pointer-events-none">
+        {petals}
+      </div>
+
       {/* ✨ Title */}
       <motion.h1
-        className="text-6xl md:text-8xl font-calligraphy mb-8 text-black ink-text glow-text tracking-[0.05em]"
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.5, type: 'spring', stiffness: 150 }}
+        className="text-9xl md:text-[11rem] font-[Zhi_Mang_Xing] text-black"
       >
         春蚕食叶
       </motion.h1>
 
       {/* 🖋️ Poem text */}
       <motion.div
-        className="text-2xl md:text-3xl font-calligraphy leading-[2.2] text-black space-y-4 ink-text glow-text max-w-4xl"
+        className="text-2xl md:text-3xl font-calligraphy leading-[2.2] text-black space-y-4 ink-text glow-text max-w-4xl relative z-20"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5, duration: 2 }}
@@ -54,9 +86,49 @@ export default function ChancanShiyePage() {
         <p>千般缱绻情未了，花间醉舞到天明。</p>
       </motion.div>
 
-      {/* 🎨 Calligraphy glow + ink effect */}
+      {/* 🎨 Styles */}
       <style jsx>{`
-        /* Subtle ink brush texture */
+        .petal-local {
+          position: absolute;
+          top: -10%;
+          background: radial-gradient(
+            circle at 30% 30%,
+            hsl(var(--hue), 90%, 88%) 0%,
+            hsl(var(--hue), 80%, 84%) 60%,
+            hsl(var(--hue), 70%, 94%) 100%
+          );
+          border-radius: 60% 40% 60% 40%;
+          opacity: 0.9;
+          animation: petalFloat var(--duration, 12s) linear infinite;
+        }
+
+        @keyframes petalFloat {
+          0% {
+            transform: translateY(-10%) translateX(0) rotate(0deg);
+            opacity: 1;
+          }
+          50% {
+            transform: translateY(50vh) translateX(calc(var(--drift) * 1px)) rotate(180deg);
+            opacity: 0.9;
+          }
+          100% {
+            transform: translateY(110vh) translateX(0) rotate(360deg);
+            opacity: 0;
+          }
+        }
+
+        @keyframes sway-slow {
+          0%, 100% {
+            transform: translateY(0) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-10px) rotate(1deg);
+          }
+        }
+        .animate-sway-slow {
+          animation: sway-slow 6s ease-in-out infinite;
+        }
+
         .ink-text {
           color: rgba(0, 0, 0, 0.92);
           text-shadow:
@@ -67,7 +139,6 @@ export default function ChancanShiyePage() {
           animation: inkPulse 10s ease-in-out infinite;
         }
 
-        /* Soft glow to simulate golden ink reflecting light */
         .glow-text {
           text-shadow:
             0 0 4px rgba(255, 240, 180, 0.4),
@@ -77,12 +148,8 @@ export default function ChancanShiyePage() {
         }
 
         @keyframes inkPulse {
-          0%, 100% {
-            filter: brightness(0.95) blur(0.2px);
-          }
-          50% {
-            filter: brightness(1.05) blur(0.5px);
-          }
+          0%, 100% { filter: brightness(0.95) blur(0.2px); }
+          50% { filter: brightness(1.05) blur(0.5px); }
         }
 
         @keyframes glowPulse {
@@ -101,7 +168,6 @@ export default function ChancanShiyePage() {
         }
       `}</style>
 
-      {/* 🖋️ Global font declaration */}
       <style jsx global>{`
         .font-calligraphy {
           font-family: 'Zhi Mang Xing', cursive;

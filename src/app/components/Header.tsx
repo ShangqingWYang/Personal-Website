@@ -13,14 +13,11 @@ export default function Header() {
 
   const moreItems = [
     { label: '春蚕食叶', href: '/chancan-shiye' },
-    { label: 'Blog', href: '/blog' },
-    { label: 'Gallery', href: '/gallery' },
   ];
 
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [hovering, setHovering] = useState(false);
 
-  // Cursor offset for 3D tilt effect
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 15;
@@ -38,8 +35,8 @@ export default function Header() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ type: 'spring', stiffness: 200, damping: 25 }}
     >
-      {/* Outer container spans full width */}
-      <div className="w-full max-w-7xl mx-auto flex justify-evenly items-center px-6 py-5">
+      {/* 🌟 Wider layout container */}
+      <div className="w-full max-w-[95%] mx-auto flex justify-evenly items-center px-10 py-5">
         {/* Logo */}
         <motion.div
           style={{ rotateX: -offset.y, rotateY: offset.x }}
@@ -58,9 +55,9 @@ export default function Header() {
           <span className="absolute inset-0 bg-gradient-to-r from-yellow-400 via-white to-yellow-400 bg-clip-text text-transparent opacity-20 animate-shimmer"></span>
         </motion.div>
 
-        {/* Navigation Links (evenly spaced) */}
+        {/* Navigation (stretched spacing) */}
         <motion.nav
-          className="flex items-center justify-evenly gap-16 text-gray-400 text-lg md:text-xl tracking-[0.25em] font-serif flex-1 max-w-4xl"
+          className="flex items-center justify-evenly gap-20 text-gray-400 text-lg md:text-xl tracking-[0.25em] font-serif flex-1 max-w-6xl"
           style={{ rotateX: -offset.y / 2, rotateY: offset.x / 2 }}
         >
           {navItems.map((nav) => (
@@ -75,7 +72,7 @@ export default function Header() {
             </motion.a>
           ))}
 
-          {/* "More" dropdown */}
+          {/* “More” dropdown (still centered in flow) */}
           <div
             className="relative cursor-pointer"
             onMouseEnter={() => setHovering(true)}
@@ -91,21 +88,25 @@ export default function Header() {
             <AnimatePresence>
               {hovering && (
                 <motion.ul
-                  className="absolute top-full mt-3 left-1/2 transform -translate-x-1/2 bg-gray-900/95 rounded-xl px-6 py-4 shadow-[0_0_30px_rgba(255,255,150,0.4)] text-yellow-400 whitespace-nowrap z-50 border border-yellow-300/20 backdrop-blur-sm"
-                  initial={{ opacity: 0, y: -20, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                  transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+                  className="absolute top-full mt-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-b from-gray-900/90 to-gray-800/90 rounded-2xl px-8 py-4 shadow-[0_0_35px_rgba(255,255,150,0.25)] text-yellow-400 whitespace-nowrap z-50 border border-yellow-300/20 backdrop-blur-xl list-none"
+                  initial={{ opacity: 0, y: -10, scale: 0.95, filter: 'blur(8px)' }}
+                  animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+                  exit={{ opacity: 0, y: -10, scale: 0.95, filter: 'blur(8px)' }}
+                  transition={{ type: 'spring', stiffness: 220, damping: 22 }}
                 >
                   {moreItems.map((item) => (
                     <motion.li
                       key={item.label}
-                      className="px-3 py-2 text-lg md:text-xl hover:text-white hover:bg-yellow-400/10 rounded-lg transition-all duration-300"
-                      whileHover={{ scale: 1.05 }}
+                      className="px-3 py-2 text-lg md:text-xl hover:text-white hover:bg-yellow-400/10 rounded-lg transition-all duration-300 font-light tracking-wider"
+                      whileHover={{
+                        scale: 1.07,
+                        textShadow: '0 0 15px rgba(255,240,180,0.5)',
+                      }}
                     >
                       <Link href={item.href}>{item.label}</Link>
                     </motion.li>
                   ))}
+                  <div className="absolute -bottom-3 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-yellow-300/40 to-transparent blur-sm"></div>
                 </motion.ul>
               )}
             </AnimatePresence>
@@ -113,7 +114,7 @@ export default function Header() {
         </motion.nav>
       </div>
 
-      {/* Header styles */}
+      {/* Animations */}
       <style jsx>{`
         @keyframes shimmer {
           0% { background-position: -200% 0; }
@@ -123,18 +124,13 @@ export default function Header() {
           background-size: 200% auto;
           animation: shimmer 3s linear infinite;
         }
-
-        @keyframes glow {
-          0% { text-shadow: 0 0 5px #f0e68c; }
-          50% { text-shadow: 0 0 20px #ffff80; }
-          100% { text-shadow: 0 0 5px #f0e68c; }
-        }
-        .animate-glow {
-          animation: glow 2s infinite ease-in-out;
-        }
-
         .perspective-1000 {
           perspective: 1000px;
+        }
+        ul, li {
+          list-style: none;
+          padding: 0;
+          margin: 0;
         }
       `}</style>
     </motion.header>
