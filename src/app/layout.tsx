@@ -5,13 +5,12 @@ import { useEffect, useState } from 'react';
 import '@fontsource/inter';
 import '@fontsource/playfair-display/700.css';
 import dynamic from 'next/dynamic';
-import Image from 'next/image'; // ✅ import Next.js image component
+import Image from 'next/image';
 import BackgroundMusic from './components/BackgroundMusic';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { usePathname } from 'next/navigation';
 
-// Dynamically import particle + background components
 const GoldParticles = dynamic(() => import('./components/GoldParticles'), { ssr: false });
 const PhoenixBackground = dynamic(() => import('./components/PhoenixBackground'), { ssr: false });
 const StallionBackground = dynamic(() => import('./components/StallionBackground'), { ssr: false });
@@ -19,11 +18,10 @@ const StallionBackground = dynamic(() => import('./components/StallionBackground
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [windowHeight, setWindowHeight] = useState(0);
   const pathname = usePathname();
-  const isSubPage = pathname === '/chancan-shiye'; // hide all main-page components on subpage
+  const isSubPage = pathname === '/chancan-shiye';
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-
     setWindowHeight(window.innerHeight);
 
     const handleMove = (e: MouseEvent) => {
@@ -32,29 +30,26 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     };
 
     window.addEventListener('mousemove', handleMove);
-
     return () => window.removeEventListener('mousemove', handleMove);
   }, []);
 
   return (
     <html lang="en">
       <body className="relative text-gray-100">
-        {/* Only render main-page components when NOT on the subpage */}
+        {/* Background Layers */}
         {!isSubPage && windowHeight > 0 && (
           <>
-            <PhoenixBackground
-  className="fixed top-1/2 right-0 -translate-y-1/2 -z-20 pointer-events-none !m-0 !p-0"
-/>
-<StallionBackground className="fixed inset-0 -z-20 pointer-events-none" />
-
+            <PhoenixBackground className="fixed top-1/2 right-0 -translate-y-1/2 -z-20 pointer-events-none" />
+            <StallionBackground className="fixed inset-0 -z-20 pointer-events-none" />
             <GoldParticles className="fixed inset-0 -z-10 pointer-events-none" />
           </>
         )}
 
-        {/* Main content wrapper */}
-        <div className="relative z-10 flex flex-col items-center justify-center">
-          {!isSubPage && <Header />}
+        {/* ✅ Header moved OUTSIDE main wrapper */}
+        {!isSubPage && <Header />}
 
+        {/* Main content wrapper */}
+        <div className="relative z-0 flex flex-col items-center justify-center">
           {children}
           {!isSubPage && <Footer />}
         </div>

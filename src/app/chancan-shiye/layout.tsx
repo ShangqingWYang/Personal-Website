@@ -6,35 +6,32 @@ export default function SubpageLayout({ children }: { children: ReactNode }) {
   const [petals, setPetals] = useState<React.ReactElement[]>([]);
 
   useEffect(() => {
-    // Backup and change body styles
     const originalBg = document.body.style.backgroundColor;
     const originalColor = document.body.style.color;
     document.body.style.backgroundColor = '#fffaf5';
-    document.body.style.color = '#c41f4f';
+    document.body.style.color = '#000';
 
-    // Generate petals
+    // 🌸 Generate floating petals (fully independent animation)
     const generatedPetals = Array.from({ length: 50 }, (_, i) => {
-      const size = Math.random() * 16 + 8; // 8px - 24px
+      const size = Math.random() * 18 + 6;
       const left = Math.random() * window.innerWidth;
-      const delay = Math.random() * 10;
-      const duration = Math.random() * 8 + 8;
-      const rotate = Math.random() * 360;
-      const drift = Math.random() * 40 - 20;
-      const scale = Math.random() * 0.6 + 0.7;
+      const delay = Math.random() * 8;
+      const duration = Math.random() * 8 + 10;
+      const drift = Math.random() * 60 - 30;
+      const hue = Math.random() * 20 + 340; // pink tone variation
 
       return (
         <div
           key={i}
-          className="petal"
+          className="petal-local"
           style={{
             width: `${size}px`,
-            height: `${size}px`,
+            height: `${size * 0.8}px`,
             left: `${left}px`,
-            animation: `fall ${duration}s ease-in-out ${delay}s infinite, pulse ${3 + Math.random() * 4}s ease-in-out ${Math.random() * 5}s infinite`,
-            transform: `rotate(${rotate}deg) scale(${scale})`,
+            animationDelay: `${delay}s`,
+            animationDuration: `${duration}s`,
             ['--drift' as any]: `${drift}px`,
-            ['--scale' as any]: scale,
-            zIndex: Math.random() > 0.5 ? 1 : -1,
+            ['--hue' as any]: hue,
           }}
         />
       );
@@ -42,7 +39,6 @@ export default function SubpageLayout({ children }: { children: ReactNode }) {
 
     setPetals(generatedPetals);
 
-    // Cleanup
     return () => {
       document.body.style.backgroundColor = originalBg;
       document.body.style.color = originalColor;
@@ -51,20 +47,88 @@ export default function SubpageLayout({ children }: { children: ReactNode }) {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#fffaf5]">
-      {/* ✅ Tree background (make sure Tree2.png is in /public) */}
+      {/* 🌳 Tree background */}
       <img
         src="/Tree2.png"
-        alt="Tree"
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2/5 opacity-50 -z-10 animate-sway-strong pointer-events-none select-none"
+        alt="Tree background"
+        className="fixed bottom-0 left-1/2 -translate-x-1/2 w-[45%] max-w-[600px] opacity-25 blur-[0.5px] -z-0 animate-sway-slow pointer-events-none select-none"
       />
 
-      {/* 🌸 Floating petals */}
-      <div className="absolute inset-0 z-0 overflow-hidden">{petals}</div>
+      {/* 🌸 Independent petals */}
+      <div className="absolute inset-0 z-30 overflow-hidden">{petals}</div>
 
       {/* 💬 Page content */}
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center">
+      <div className="relative z-40 flex flex-col items-center justify-center min-h-screen px-6 text-center">
         {children}
       </div>
+
+      {/* 🎨 Internal petal + tree animations */}
+      <style jsx>{`
+        /* 🌸 Individual petals */
+        .petal-local {
+          position: absolute;
+          top: -10%;
+          background: radial-gradient(
+            circle at 30% 30%,
+            hsl(var(--hue), 90%, 88%) 0%,
+            hsl(var(--hue), 80%, 85%) 60%,
+            hsl(var(--hue), 70%, 92%) 100%
+          );
+          border-radius: 60% 40% 60% 40%;
+          opacity: 0.9;
+          animation-name: petalFall, petalSway, petalSpin;
+          animation-timing-function: linear, ease-in-out, ease-in-out;
+          animation-iteration-count: infinite, infinite, infinite;
+        }
+
+        @keyframes petalFall {
+          0% {
+            transform: translateY(-10%) translateX(0) rotate(0deg);
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.8;
+          }
+          100% {
+            transform: translateY(110vh) translateX(var(--drift)) rotate(360deg);
+            opacity: 0.3;
+          }
+        }
+
+        @keyframes petalSway {
+          0%, 100% {
+            transform: translateX(0);
+          }
+          50% {
+            transform: translateX(25px);
+          }
+        }
+
+        @keyframes petalSpin {
+          0% {
+            rotate: 0deg;
+          }
+          50% {
+            rotate: 180deg;
+          }
+          100% {
+            rotate: 360deg;
+          }
+        }
+
+        /* 🌳 Tree swaying */
+        @keyframes sway-slow {
+          0%, 100% {
+            transform: translateY(0) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-10px) rotate(1deg);
+          }
+        }
+        .animate-sway-slow {
+          animation: sway-slow 6s ease-in-out infinite;
+        }
+      `}</style>
     </div>
   );
 }
